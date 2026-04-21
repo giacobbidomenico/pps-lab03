@@ -61,15 +61,20 @@ object Sequences: // Essentially, generic linkedlists
         case Cons(h2, t2) => Cons(h2, concat(s1, t2))
         case Nil() => Nil()
 
-
-
     /*
      * Reverse the sequence
      * E.g., [10, 20, 30] => [30, 20, 10]
      * E.g., [10] => [10]
      * E.g., [] => []
      */
-    def reverse[A](s: Sequence[A]): Sequence[A] = ???
+    def reverse[A](s: Sequence[A]): Sequence[A] =
+
+      @scala.annotation.tailrec
+      def _reverse(current: Sequence[A], acc: Sequence[A]): Sequence[A] = current match
+        case Cons(h, t) => _reverse(t, Cons(h, acc))
+        case Nil() => acc
+
+      _reverse(s, Nil())
 
     /*
      * Map the elements of the sequence to a new sequence and flatten the result
