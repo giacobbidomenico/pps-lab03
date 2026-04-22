@@ -22,3 +22,6 @@ class Task2Test:
   @Test def testFoldLeft(): Unit =
     assertEquals(-16, foldLeft(lst)(0)(_ - _))
     assertEquals(105, foldLeft(lst)(1)(_ * _))
+
+  @Test def testTotalNumberCourses(): Unit =
+    assertEquals(2, getTotalNumberCourses(sequencePerson))
