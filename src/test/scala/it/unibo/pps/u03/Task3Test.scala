@@ -16,3 +16,6 @@ class Task3Test:
     val resultStream: Stream[Int] = cons(0, cons(2, cons(3, empty())))
     assertEquals(toList(resultStream), toList(takeWhile(intStream)(pred)))
 
+  @Test def testFill(): Unit =
+    val resultStream: Stream[String] = cons("a", cons("a", cons("a", empty())))
+    assertEquals(toList(resultStream), toList(fill(3)("a")))
