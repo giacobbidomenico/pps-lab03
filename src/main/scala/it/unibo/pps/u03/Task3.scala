@@ -23,5 +23,10 @@ object Task3:
     case (Empty(), _) => s2
     case _ => s1
 
+  import u03.Sequences.*
 
-
+  def cycle[A](lst: Sequence[A]): Stream[A] =
+    def _cycle(actual: Sequence[A], acc: Sequence[A]): Stream[A] = actual match
+      case Sequence.Cons(h, t) => cons(h, _cycle(t, acc))
+      case _ => _cycle(acc, acc)
+    _cycle(lst, lst)

@@ -8,6 +8,7 @@ class Task3Test:
   import u03.Streams.Stream
   import u03.Streams.Stream.*
   import u03.Task3.*
+  import u03.Sequences.Sequence
 
   val intStream: Stream[Int] = cons(0, cons(2, cons(3, cons(7, empty()))))
 
@@ -29,3 +30,8 @@ class Task3Test:
     val s2: Stream[Int] = cons(2, cons(4, cons(6, cons(8, cons(10, empty())))))
     val resultStream: Stream[Int] =  cons(1, cons(2, cons(3, cons(4, cons(5, cons(6, cons(8, cons(10, empty()))))))))
     assertEquals(toList(resultStream), toList(interleave(s1, s2)))
+
+  @Test def testCycle(): Unit =
+    val lsd = cycle(Sequence.Cons("a", Sequence.Cons("b", Sequence.Cons("c", Sequence.Nil()))))
+    val resultStream: Stream[String] =  cons("a", cons("b", cons("c", cons("a", cons("b", cons("c", cons("a", empty())))))))
+    assertEquals(toList(take(lsd)(7)), toList(resultStream))
