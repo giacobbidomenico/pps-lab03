@@ -105,9 +105,20 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [10, 30]
      * E.g., [10, 20, 30, 40] => [10, 30]
      */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+    /*def evenIndices[A](s: Sequence[A]): Sequence[A] =
+      @scala.annotation.tailrec
+      def _evenIndices(current: Sequence[A], acc: Sequence[A]): Sequence[A] = current match
+        case Cons(h, Cons(_, t)) => _evenIndices(t, Cons(h, acc))
+        case Cons(h, Nil()) => Cons(h, acc)
+        case Nil() => acc
+      reverse(_evenIndices(s, Nil()))*/
+    def evenIndices[A](s: Sequence[A]): Sequence[A] = s match
+      case Cons(h, Cons(_, t)) => Cons(h, evenIndices(t))
+      case Cons(h, Nil()) => Cons(h, Nil())
+      case Nil() => Nil()
 
-    /*
+
+    /*1
      * Check if the sequence contains the element
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
