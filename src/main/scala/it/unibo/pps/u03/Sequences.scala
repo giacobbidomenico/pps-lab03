@@ -123,14 +123,26 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => true if elem is 20
      * E.g., [10, 20, 30] => false if elem is 40
      */
-    def contains[A](s: Sequence[A])(elem: A): Boolean = ???
+    /*def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => if elem == h then true else contains(t)(elem)
+      case Nil() => false*/
+    @scala.annotation.tailrec
+    def contains[A](s: Sequence[A])(elem: A): Boolean = s match
+      case Cons(h, t) => h == elem || contains(t)(elem)
+      case Nil() => false
 
     /*
      * Remove duplicates from the sequence
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
+    def distinct[A](s: Sequence[A]): Sequence[A] =
+      @scala.annotation.tailrec
+      def _distinct(actual: Sequence[A], acc: Sequence[A]): Sequence[A] = actual match
+        case Cons(h, t) if !contains(acc)(h) => _distinct(t, Cons(h, acc))
+        case _ => acc
+
+      reverse(_distinct(s, Nil()))
 
     /*
      * Group contiguous elements in the sequence
@@ -148,7 +160,7 @@ object Sequences: // Essentially, generic linkedlists
     def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
 
 @main def trySequences =
-  import Sequences.* 
+  import Sequences.*
   val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))
   println(Sequence.sum(l)) // 30
 
