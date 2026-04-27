@@ -166,14 +166,19 @@ object Sequences: // Essentially, generic linkedlists
      * Partition the sequence into two sequences based on the predicate
      * E.g., [10, 20, 30] => ([10], [20, 30]) if pred is (_ < 20)
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
-     */
-    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
+     */ 
+    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = s match
+      case Nil() => (Nil(), Nil())
+      case Cons(h, t) => partition(t)(pred) match
+        case (satisfied, notSatisfied) =>
+          if pred(h) then (Cons(h, satisfied), notSatisfied)
+          else (satisfied, Cons(h, notSatisfied))
 
-@main def trySequences =
-  import Sequences.*
-  val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))
-  println(Sequence.sum(l)) // 30
-
-  import Sequence.*
-
-  println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
+    @main def trySequences =
+      import Sequences.*
+      val l = Sequence.Cons(10, Sequence.Cons(20, Sequence.Cons(30, Sequence.Nil())))
+      println(Sequence.sum(l)) // 30
+    
+      import Sequence.*
+    
+      println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
